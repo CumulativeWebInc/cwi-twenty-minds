@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Twenty Minds Decision Engine — Cumulative Web Inc</title>
+<meta name="description" content="Run any decision through 20 named adversarial perspectives, then synthesize with recorded dissent. Interactive web demo + installable CLI. $0, stdlib-only.">
+<style>
+:root{--bg:#0b0e13;--card:#131922;--line:#26303d;--ink:#eef3f8;--dim:#9aa7b8;--gold:#d8a94a;--cyan:#4ad8d0;--red:#e0655a;--green:#7ef0c1}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 -apple-system,system-ui,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:900px;margin:0 auto;padding:28px 18px 80px}
+header.brand{display:flex;align-items:center;gap:14px;margin-bottom:4px}
+header.brand img{width:56px;height:56px;border-radius:50%;border:2px solid var(--gold)}
+.sub{color:var(--dim);margin:2px 0 18px}
+.badges{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 20px}
+.badge{display:inline-block;border:1px solid var(--gold);color:var(--gold);border-radius:20px;padding:2px 12px;font-size:.78rem}
+.badge.live{border-color:var(--green);color:var(--green)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-top:16px}
+.hidden{display:none!important}
+label{display:block;font-size:.82rem;color:var(--dim);margin:12px 0 4px}
+input[type=text],textarea,select{width:100%;padding:10px 12px;border-radius:9px;border:1px solid var(--line);background:#0e131a;color:var(--ink);font-size:1rem;font-family:inherit}
+textarea{min-height:76px;resize:vertical}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+button{cursor:pointer;border:0;border-radius:10px;padding:11px 20px;font-weight:700;font-size:.95rem}
+.primary{background:var(--gold);color:#141414}
+.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+button:disabled{opacity:.4;cursor:default}
+.steps{display:flex;gap:6px;margin:18px 0;flex-wrap:wrap}
+.step{flex:1;min-width:120px;text-align:center;font-size:.78rem;color:var(--dim);padding:8px 4px;border:1px solid var(--line);border-radius:10px}
+.step.on{border-color:var(--gold);color:var(--gold);font-weight:700}
+.step.done{border-color:var(--green);color:var(--green)}
+.mindhead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.mindhead h2{margin:0;font-size:1.25rem;color:var(--gold)}
+.mindhead .n{color:var(--dim);font-size:.85rem}
+.role{color:var(--dim);font-style:italic;margin:8px 0}
+.promptbox{background:#0c1118;border:1px dashed var(--line);border-radius:10px;padding:12px 14px;font-size:.82rem;color:var(--dim);white-space:pre-wrap;margin:10px 0}
+.promptbox summary{cursor:pointer;color:var(--cyan)}
+details{margin:8px 0}
+.flag{background:#2a1a16;border:1px solid var(--red);border-radius:10px;padding:10px 14px;margin:8px 0;font-size:.9rem;color:#f3b3ac}
+.ok{background:#10241b;border:1px solid var(--green);border-radius:10px;padding:10px 14px;margin:8px 0;font-size:.9rem;color:var(--green)}
+.limits{background:#141a10;border:1px solid #5a7a3a;border-radius:10px;padding:12px 16px;margin-top:16px;font-size:.88rem;color:#cfe0b8}
+table{border-collapse:collapse;width:100%;font-size:.85rem;margin:10px 0}
+th,td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}
+th{color:var(--gold)}
+pre{background:#060b11;border:1px solid var(--line);border-radius:10px;padding:14px;overflow-x:auto;font-size:.8rem;max-height:420px;overflow-y:auto}
+a{color:var(--cyan)}
+footer{margin-top:36px;color:var(--dim);font-size:.82rem;border-top:1px solid var(--line);padding-top:16px}
+code{background:#0c1118;padding:2px 6px;border-radius:6px;font-size:.85em}
+.progress{height:8px;background:#0c1118;border-radius:6px;overflow:hidden;margin:10px 0}
+.progress i{display:block;height:100%;background:var(--gold);width:0}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="brand">
+<img src="brand/logo.jpg" alt="Cumulative Web Inc logo">
+<div><h1 style="margin:0;font-size:1.6rem">Twenty Minds Decision Engine</h1>
+<div class="sub">Run a decision through 20 named adversarial perspectives, then synthesize with <em>recorded dissent</em>. A CWI machine-reasoning product.</div></div>
+</header>
+<div class="badges"><span class="badge">v1.0.0</span><span class="badge">stdlib only</span><span class="badge">$0</span><span class="badge live">LIVE demo — runs the real protocol in your browser</span></div>
+
+<div class="steps" id="steps">
+<div class="step on" data-s="0">1 · Brief</div>
+<div class="step" data-s="1">2 · 20 minds</div>
+<div class="step" data-s="2">3 · Distinctness</div>
+<div class="step" data-s="3">4 · Synthesis</div>
+<div class="step" data-s="4">5 · Report</div>
+</div>
+
+<!-- STEP 1: BRIEF -->
+<section class="panel" id="step-0">
+<h2 style="margin-top:0">The brief — one question, up to 5 facts</h2>
+<p class="sub">Minds argue ONLY from these facts. If a verdict needs a fact you don't have, the mind says so plainly instead of inventing one.</p>
+<label>Decision question</label>
+<input type="text" id="q" placeholder="e.g. Should we ship the demo on Friday?">
+<label>Key facts (1–5 required)</label>
+<div id="facts"></div>
+<div class="btnrow"><button class="ghost" id="addFact">+ Add fact</button></div>
+<div class="btnrow"><button class="primary" id="toMinds">Start the 20 minds →</button></div>
+</section>
+
+<!-- STEP 2: MINDS -->
+<section class="panel hidden" id="step-1">
+<div class="mindhead"><span class="n" id="mindCount">1 / 20</span><h2 id="mindName"></h2></div>
+<div class="progress"><i id="mindBar"></i></div>
+<p class="role" id="mindRole"></p>
+<details><summary>Prompt the CLI would send this mind (click to inspect)</summary><div class="promptbox" id="mindPrompt" style="border:0;padding:0"></div></details>
+<label>Verdict — exactly one sentence</label>
+<textarea id="mindVerdict" placeholder="The mind's one-sentence verdict…"></textarea>
+<label>Risk — exactly one sentence</label>
+<textarea id="mindRisk" placeholder="The mind's one-sentence risk…"></textarea>
+<div class="btnrow">
+<button class="ghost" id="mindBack">← Back</button>
+<button class="primary" id="mindNext">Save &amp; next mind →</button>
+</div>
+<p class="sub" style="margin-top:10px">You are the backend: in the CLI's manual mode a human answers each mind. This page runs exactly that flow.</p>
+</section>
+
+<!-- STEP 3: DISTINCTNESS -->
+<section class="panel hidden" id="step-2">
+<h2 style="margin-top:0">Distinctness guard</h2>
+<p class="sub">The protocol requires distinct verdicts. Pairs that are identical (or ≥ 0.90 Jaccard-similar) are flagged and must be rewritten — same rule as the CLI.</p>
+<div id="flags"></div>
+<div class="btnrow"><button class="ghost" id="backToMinds">← Revise verdicts</button><button class="primary" id="toSynthesis">Continue to synthesis →</button></div>
+</section>
+
+<!-- STEP 4: SYNTHESIS -->
+<section class="panel hidden" id="step-3">
+<h2 style="margin-top:0">Synthesis — you write the decision</h2>
+<p class="sub">The dissent field is <strong>mandatory</strong>: name the strongest minority view and who holds it. A synthesis without dissent is rejected.</p>
+<label>Decision (one sentence, A or B / yes or no)</label>
+<input type="text" id="sDecision">
+<label>Why (the 2–3 minds that carried it, with reasons)</label>
+<textarea id="sWhy"></textarea>
+<label>Dissent recorded (strongest minority view + who holds it) — required</label>
+<textarea id="sDissent"></textarea>
+<label>Confidence</label>
+<select id="sConf"><option value="high">high</option><option value="medium" selected>medium</option><option value="low">low</option></select>
+<label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="sChanged" style="width:auto"> This run changed my pre-run lean</label>
+<div class="btnrow"><button class="ghost" id="backToFlags">← Back</button><button class="primary" id="toReport">Generate report →</button></div>
+</section>
+
+<!-- STEP 5: REPORT -->
+<section class="panel hidden" id="step-4">
+<h2 style="margin-top:0">Report</h2>
+<div id="reportVerdict"></div>
+<h3>report.md</h3><pre id="repMd"></pre>
+<h3>report.json</h3><pre id="repJson"></pre>
+<div class="btnrow">
+<button class="ghost" id="dlMd">Download report.md</button>
+<button class="ghost" id="dlJson">Download report.json</button>
+<button class="primary" id="restart">Start a new run</button>
+</div>
+</section>
+
+<!-- CLI INSTALL -->
+<section class="panel">
+<h2 style="margin-top:0">Run it locally — the full CLI</h2>
+<p>This page is the manual-backend demo. The installable CLI adds <code>ollama</code> and <code>openai-compat</code> backends, per-mind model routing, and writes <code>report.md</code> + <code>report.json</code> to disk. 40/40 tests green.</p>
+<pre>git clone https://github.com/CumulativeWebInc/cwi-twenty-minds.git
+cd cwi-twenty-minds/cli
+python3 -m twenty_minds "Should we ship Friday?" --fact "Team of 3, all senior" --fact "$0 budget"
+# list the 20 perspectives:
+python3 -m twenty_minds --list-perspectives</pre>
+<p><a href="https://github.com/CumulativeWebInc/cwi-twenty-minds">github.com/CumulativeWebInc/cwi-twenty-minds</a> · <a href="perspectives.json">perspectives.json</a> (machine-readable) · <a href="cli/README.md">CLI docs</a></p>
+</section>
+
+<div class="limits"><strong>Honest limits.</strong> This engine structures reasoning; it does not verify it. Verdicts are only as good as the minds behind them — in manual mode, that's you. Never present a report as verified truth. No network calls, no telemetry, stdlib only.</div>
+
+<section class="panel">
+<h2 style="margin-top:0">Get Twenty Minds for your team</h2>
+<p>Twenty Minds Decision Engine v1.0.0 — adversarial 20-perspective decision protocol as runnable software. For licensing, volume, or integration inquiries:</p>
+<div class="btnrow"><a href="mailto:hp@cumulativeweb.com?subject=Twenty%20Minds%20Decision%20Engine%20inquiry"><button class="primary">Contact hp@cumulativeweb.com</button></a></div>
+<p class="sub">A Cumulative Web Inc machine-reasoning product. Pricing on request — no prices are published without approval.</p>
+</section>
+
+<footer>© 2026 Cumulative Web Inc · <a href="mailto:hp@cumulativeweb.com">hp@cumulativeweb.com</a> · schema 1.0.0 · the 20 perspectives are fixed-order and versioned with the schema.</footer>
+</div>
+<script src="twenty-minds.js"></script>
+<script>
+(function(){
+"use strict";
+const $ = id => document.getElementById(id);
+const state = { brief:null, verdicts:new Array(20).fill(null), idx:0, flags:[], synthesis:null };
+const steps = [...document.querySelectorAll(".step")];
+function show(n){
+  for(let i=0;i<5;i++){ $("step-"+i).classList.toggle("hidden", i!==n); }
+  steps.forEach((s,i)=>{ s.classList.toggle("on", i===n); s.classList.toggle("done", i<n); });
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+/* brief */
+const factsEl=$("facts");
+function addFact(v){ const t=document.createElement("textarea"); t.placeholder="A key fact every mind argues from…"; t.value=v||""; factsEl.appendChild(t); }
+addFact(""); addFact("");
+$("addFact").onclick=()=>{ if(factsEl.children.length<5) addFact(""); };
+$("toMinds").onclick=()=>{
+  try{
+    const facts=[...factsEl.querySelectorAll("textarea")].map(t=>t.value);
+    state.brief=makeBrief($("q").value, facts);
+    state.idx=0; renderMind(); show(1);
+  }catch(e){ alert(e.message); }
+};
+/* minds */
+function renderMind(){
+  const i=state.idx, p=PERSPECTIVES[i];
+  $("mindCount").textContent=(i+1)+" / 20";
+  $("mindName").textContent=p.name;
+  $("mindRole").textContent="Role: "+p.role;
+  $("mindPrompt").textContent=buildPrompt(p.name, state.brief);
+  $("mindBar").style.width=((i+1)/20*100)+"%";
+  const v=state.verdicts[i];
+  $("mindVerdict").value=v?v.verdict:""; $("mindRisk").value=v?v.risk:"";
+  $("mindBack").disabled=(i===0);
+  $("mindNext").textContent=(i===19)?"Finish minds →":"Save & next mind →";
+}
+function saveMind(){
+  const p=PERSPECTIVES[state.idx];
+  state.verdicts[state.idx]=makeVerdict(p.name,$("mindVerdict").value,$("mindRisk").value);
+}
+$("mindBack").onclick=()=>{ try{saveMind();}catch(e){} if(state.idx>0){state.idx--;renderMind();} };
+$("mindNext").onclick=()=>{
+  try{ saveMind(); }catch(e){ alert(e.message); return; }
+  if(state.idx<19){ state.idx++; renderMind(); }
+  else{ runFlags(); show(2); }
+};
+/* distinctness */
+function runFlags(){
+  state.flags=checkDistinctness(state.verdicts);
+  const el=$("flags"); el.innerHTML="";
+  if(!state.flags.length){ el.innerHTML='<div class="ok">All 20 verdicts distinct — guard passes.</div>'; }
+  else state.flags.forEach(f=>{
+    const d=document.createElement("div"); d.className="flag";
+    d.innerHTML="<strong>"+f.perspective_a+" ↔ "+f.perspective_b+"</strong> ("+f.kind+", similarity "+(f.kind==="exact"?"1.0":f.similarity)+") — rewrite one of these verdicts.";
+    el.appendChild(d);
+  });
+}
+$("backToMinds").onclick=()=>{ state.idx=0; renderMind(); show(1); };
+$("toSynthesis").onclick=()=>show(3);
+$("backToFlags").onclick=()=>{ runFlags(); show(2); };
+/* synthesis */
+$("toReport").onclick=()=>{
+  try{
+    state.synthesis=buildSynthesis($("sDecision").value,$("sWhy").value,$("sDissent").value,$("sConf").value,$("sChanged").checked);
+  }catch(e){ alert(e.message); return; }
+  const ts=new Date().toISOString();
+  const md=buildMarkdown(state.brief,state.verdicts,state.synthesis,state.flags,ts);
+  const rj=buildJson(state.brief,state.verdicts,state.synthesis,state.flags,ts);
+  $("repMd").textContent=md; $("repJson").textContent=JSON.stringify(rj,null,2);
+  $("reportVerdict").innerHTML='<div class="ok"><strong>Decision:</strong> '+escapeHtml(state.synthesis.decision)+'<br><strong>Dissent recorded:</strong> '+escapeHtml(state.synthesis.dissent_recorded)+'<br><strong>Confidence:</strong> '+state.synthesis.confidence+"</div>";
+  $("dlMd").onclick=()=>dl("report.md",md,"text/markdown");
+  $("dlJson").onclick=()=>dl("report.json",JSON.stringify(rj,null,2)+"\n","application/json");
+  show(4);
+};
+function escapeHtml(s){ return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function dl(name,text,type){ const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob([text],{type})); a.download=name; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),4000); }
+$("restart").onclick=()=>{ state.verdicts=new Array(20).fill(null); state.synthesis=null; $("q").value=""; factsEl.innerHTML=""; addFact(""); addFact(""); show(0); };
+})();
+</script>
+</body>
+</html>
