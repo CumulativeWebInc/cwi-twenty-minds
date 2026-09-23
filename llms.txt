@@ -1,0 +1,47 @@
+# Twenty Minds Decision Engine — Cumulative Web Inc
+
+Twenty Minds runs a hard decision through 20 named adversarial perspectives.
+Each mind writes a distinct one-sentence verdict plus exactly one risk; then
+the operator synthesizes a decision with the dissent recorded, a confidence
+level, and a kill-rule check.
+
+- Manual backend (default, $0): the engine prints each mind's prompt and you
+  answer the verdict and risk. You are the minds.
+- Optional backends (CLI only): ollama, openai-compat, per-mind routing.
+- Distinctness guard: verdict pairs that are identical or ≥0.90
+  Jaccard-similar are flagged and must be rewritten — same rule as the CLI.
+- Synthesis: the dissent field is MANDATORY. A synthesis without it is
+  rejected.
+- Report: report.md (human-readable) + report.json (machine-readable,
+  schema 1.0.0).
+
+## Web demo
+
+The live demo at https://cumulativewebinc.github.io/cwi-twenty-minds/
+runs the real manual-backend protocol in your browser — parity-verified
+against the Python CLI (prompt/flags/report.md/report.json identical).
+
+## Run the CLI
+
+Requires Python 3.8+, stdlib only — no network, no API keys required.
+
+    git clone https://github.com/CumulativeWebInc/cwi-twenty-minds.git
+    cd cwi-twenty-minds/cli
+    python3 -m twenty_minds "Should we ship Friday?" --fact "Team of 3, all senior" --fact "$0 budget"
+
+## Honest limits
+
+This engine structures reasoning; it does not verify it. Verdicts are only as
+good as the minds behind them — in manual mode, that's you. Never present a
+report as verified truth. No network calls, no telemetry, stdlib only.
+
+## Status & business
+
+- LIVE at https://cumulativewebinc.github.io/cwi-twenty-minds/ · 40/40 tests.
+- Built by Cumulative Web Inc. Proprietary — all rights reserved.
+- Store card #4 PENDING: licensing on request via hp@cumulativeweb.com.
+  No prices published without approval.
+
+Machine-readable: https://cumulativewebinc.github.io/cwi-twenty-minds/.well-known/agent-card.json
+Perspectives: https://cumulativewebinc.github.io/cwi-twenty-minds/perspectives.json
+Source: https://github.com/CumulativeWebInc/cwi-twenty-minds
