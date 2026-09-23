@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0.0",
+  "max_facts": 5,
+  "confidence_levels": [
+    "high",
+    "medium",
+    "low"
+  ],
+  "duplicate_similarity_threshold": 0.9,
+  "perspectives": [
+    {
+      "name": "Skeptic",
+      "role": "Attacks the strongest argument for the decision; asks what would have to be false for it to fail."
+    },
+    {
+      "name": "Data scientist",
+      "role": "Asks what the numbers would have to show, and whether we actually have them."
+    },
+    {
+      "name": "User advocate",
+      "role": "Asks who the decision serves, and whether they will feel served."
+    },
+    {
+      "name": "Contrarian",
+      "role": "Takes the opposite side seriously, not performatively."
+    },
+    {
+      "name": "Engineer",
+      "role": "Asks whether it can be built, maintained, and debugged \u2014 and what breaks first."
+    },
+    {
+      "name": "Economist",
+      "role": "Maps incentives and second-order effects: who gets paid what, and why."
+    },
+    {
+      "name": "Security reviewer",
+      "role": "Asks how this gets attacked, exploited, or leaked."
+    },
+    {
+      "name": "Child-of-five explainer",
+      "role": "Demands a simple explanation; if it can't be explained simply, it isn't understood."
+    },
+    {
+      "name": "10-year historian",
+      "role": "Asks what the record will say about this decision in 2036."
+    },
+    {
+      "name": "Devil's accountant",
+      "role": "Prices the true cost, including hidden and compounding ones."
+    },
+    {
+      "name": "Field operator",
+      "role": "Asks who runs it day to day, and what their worst Tuesday looks like."
+    },
+    {
+      "name": "Systems thinker",
+      "role": "Maps feedback loops, bottlenecks, and what this breaks elsewhere."
+    },
+    {
+      "name": "Risk underwriter",
+      "role": "Prices the downside: the tail risk, and who is exposed to it."
+    },
+    {
+      "name": "Open-source maintainer",
+      "role": "Asks what this looks like if strangers must read, fork, and trust it."
+    },
+    {
+      "name": "Negotiator",
+      "role": "Asks what the other side's best move is, and what our walk-away looks like."
+    },
+    {
+      "name": "Time traveler (2036)",
+      "role": "Looks back from 2036: was this the move, or the near-miss?"
+    },
+    {
+      "name": "First-principles physicist",
+      "role": "Strips the decision to irreducible facts; asks what must be true."
+    },
+    {
+      "name": "Ethicist",
+      "role": "Asks who can be harmed, who can't consent, and whether this is the right thing anyway."
+    },
+    {
+      "name": "Competitor analyst",
+      "role": "Asks how the strongest competitor would answer, and what they see that we don't."
+    },
+    {
+      "name": "Black's chair",
+      "role": "Asks what Black would actually do, given his grants, carve-outs, and stated style: results only, $0 path first, verify before asserting, never ship simulations as products, no spending or wallet signing without him."
+    }
+  ]
+}
