@@ -5,6 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Twenty Minds Decision Engine — Cumulative Web Inc</title>
 <meta name="description" content="Run any decision through 20 named adversarial perspectives, then synthesize with recorded dissent. Interactive web demo + installable CLI. $0, stdlib-only.">
+<meta property="og:title" content="Twenty Minds Decision Engine — Cumulative Web Inc">
+<meta property="og:description" content="Run a decision through 20 named adversarial perspectives, then synthesize with recorded dissent. The live demo runs the real protocol in your browser.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://cumulativewebinc.github.io/cwi-twenty-minds/">
+<meta property="og:image" content="https://cumulativewebinc.github.io/cwi-twenty-minds/brand/logo.jpg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Twenty Minds Decision Engine">
+<meta name="twitter:description" content="20 named adversarial perspectives on one decision — dissent mandatory. Live in your browser, $0.">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Twenty Minds Decision Engine","applicationCategory":"DeveloperApplication","operatingSystem":"Web browser (demo) · Python 3.8+ (CLI, stdlib only)","url":"https://cumulativewebinc.github.io/cwi-twenty-minds/","image":"https://cumulativewebinc.github.io/cwi-twenty-minds/brand/logo.jpg","version":"1.0.0","description":"A CLI and interactive web demo that runs a hard decision through 20 named adversarial perspectives — each writes a distinct one-sentence verdict plus exactly one risk — then synthesizes a decision with the dissent recorded, a confidence level, and a kill-rule check. The web demo is parity-verified against the Python engine.","publisher":{"@type":"Organization","name":"Cumulative Web Inc","url":"https://cumulativeweb.com"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD","description":"Free demo and CLI; licensing on request"},"softwareRequirements":"Python 3.8+, stdlib only (CLI)"}
+</script>
 <style>
 :root{--bg:#0b0e13;--card:#131922;--line:#26303d;--ink:#eef3f8;--dim:#9aa7b8;--gold:#d8a94a;--cyan:#4ad8d0;--red:#e0655a;--green:#7ef0c1}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 -apple-system,system-ui,"Segoe UI",Roboto,sans-serif}
@@ -58,6 +69,14 @@ code{background:#0c1118;padding:2px 6px;border-radius:6px;font-size:.85em}
 <div class="sub">Run a decision through 20 named adversarial perspectives, then synthesize with <em>recorded dissent</em>. A CWI machine-reasoning product.</div></div>
 </header>
 <div class="badges"><span class="badge">v1.0.0</span><span class="badge">stdlib only</span><span class="badge">$0</span><span class="badge live">LIVE demo — runs the real protocol in your browser</span></div>
+
+<div class="panel" id="try-now" style="border:1px solid var(--gold)">
+<h2 style="margin-top:0">Try it now — run a decision in your browser</h2>
+<p class="sub">The live demo below runs the real 20-minds protocol — manual backend, distinctness guard, mandatory-dissent synthesis — parity-verified against the Python CLI. No install, no accounts, no network.</p>
+<div class="btnrow"><a href="https://cumulativewebinc.github.io/cwi-twenty-minds/#step-0"><button class="primary">Start the 20 minds →</button></a>
+<a href="mailto:hp@cumulativeweb.com?subject=Twenty%20Minds%20Decision%20Engine%20inquiry"><button class="ghost">License it: hp@cumulativeweb.com</button></a></div>
+<p class="sub">Store card #4 PENDING — price on request, never published without approval.</p>
+</div>
 
 <div class="steps" id="steps">
 <div class="step on" data-s="0">1 · Brief</div>
@@ -154,7 +173,7 @@ python3 -m twenty_minds --list-perspectives</pre>
 <p class="sub">A Cumulative Web Inc machine-reasoning product. Pricing on request — no prices are published without approval.</p>
 </section>
 
-<footer>© 2026 Cumulative Web Inc · <a href="mailto:hp@cumulativeweb.com">hp@cumulativeweb.com</a> · schema 1.0.0 · the 20 perspectives are fixed-order and versioned with the schema.</footer>
+<footer>© 2026 Cumulative Web Inc · <a href="mailto:hp@cumulativeweb.com">hp@cumulativeweb.com</a> · schema 1.0.0 · the 20 perspectives are fixed-order and versioned with the schema. Machine-readable: <a href="llms.txt">llms.txt</a> · <a href=".well-known/agent-card.json">agent-card.json</a> · store card #4 PENDING — price on request.</footer>
 </div>
 <script src="twenty-minds.js"></script>
 <script>
